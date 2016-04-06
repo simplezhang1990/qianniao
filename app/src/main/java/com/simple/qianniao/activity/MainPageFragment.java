@@ -34,11 +34,11 @@ public class MainPageFragment extends Fragment {
         mViewPager = (ViewPager)view.findViewById(R.id.mainpage_viewpager);
         mTabLayout = (TabLayout) view.findViewById(R.id.mainpage_tablayout);
 
-        view1 =mInflater.inflate(R.layout.fragment_login,null);
-        view2 =mInflater.inflate(R.layout.fragment_login,null);
-        view3 =mInflater.inflate(R.layout.fragment_login,null);
-        view4 =mInflater.inflate(R.layout.fragment_login,null);
-        view5 =mInflater.inflate(R.layout.fragment_login,null);
+        view1 =inflater.inflate(R.layout.fragment_login,null);
+        view2 =inflater.inflate(R.layout.fragment_login,null);
+        view3 =inflater.inflate(R.layout.fragment_login,null);
+        view4 =inflater.inflate(R.layout.fragment_login,null);
+        view5 =inflater.inflate(R.layout.fragment_login,null);
         mViewList.add(view1);
         mViewList.add(view2);
         mViewList.add(view3);
@@ -59,6 +59,16 @@ public class MainPageFragment extends Fragment {
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
        // mTabLayout.setTabsFromPagerAdapter(mAdapter);
+        TabLayout.Tab tab = mTabLayout.getTabAt(0);
+        tab.setIcon(R.drawable.image10);
+        tab = mTabLayout.getTabAt(1);
+        tab.setIcon(R.drawable.image11);
+        tab = mTabLayout.getTabAt(2);
+        tab.setIcon(R.drawable.image12);
+        tab = mTabLayout.getTabAt(3);
+        tab.setIcon(R.drawable.image13);
+        tab = mTabLayout.getTabAt(4);
+        tab.setIcon(R.drawable.image14);
         return view;
     }
 
@@ -92,8 +102,9 @@ public class MainPageFragment extends Fragment {
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
-            return mTitles.get(position);
-        }
+       public CharSequence getPageTitle(int position) {
+           return mTitles.get(position);
+       }
+
     }
 }

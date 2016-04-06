@@ -48,6 +48,13 @@ public class LoginFragment extends Fragment {
                 startActivityForResult(intent,REQUEST_CODE_REGISTER );
             }
         });
+        mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),MainPageActivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 

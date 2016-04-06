@@ -8,7 +8,7 @@ public class MainPageActivity extends SimgleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return null;
+        return new MainPageFragment();
     }
     
 }
