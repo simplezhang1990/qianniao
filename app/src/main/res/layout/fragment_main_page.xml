@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.simple.qianniao.activity.MainPageFragment">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mainpage_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+
+    </android.support.v4.view.ViewPager>
+
+<android.support.design.widget.TabLayout
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="#1FBCD2"
+    android:id="@+id/mainpage_tablayout"
+    app:tabGravity="fill"
+    app:tabMode="fixed"
+    app:tabIndicatorHeight="0dp"
+    app:tabSelectedTextColor="#FFFFFF"
+    app:tabTextColor="#000000">
+
+</android.support.design.widget.TabLayout>
+</LinearLayout>
