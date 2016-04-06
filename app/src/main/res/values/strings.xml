@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">QianNiao</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_username_hint">千鸟账号</string>
+    <string name="login_passworde_hint">千鸟密码</string>
+    <string name="login_register">注册千鸟新用户</string>
+    <string name="login_forget_password">忘记密码</string>
+    <string name="login_button_text">登录</string>
+    <string name="register_username">账号</string>
+    <string name="register_alis">昵称</string>
+    <string name="register_age">年龄</string>
+    <string name="register_sex">性别</string>
+    <string name="register_password">密码</string>
+    <string name="register_confirm_password">确认密码</string>
+    <string name="register_username_hint">请使用手机号码注册</string>
+    <string name="register_password_hint">8-16位数字或字母</string>
+    <string name="register_confirm_password_hint">再次输入密码</string>
+    <string name="register_sex_man">男</string>
+    <string name="register_sex_woman">女</string>
 </resources>
