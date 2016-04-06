@@ -1,4 +1,4 @@
-package com.simple.qianniao;
+package com.simple.qianniao.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -14,6 +14,8 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.ImageView;
+
+import com.simple.qianniao.R;
 
 /**
  * Created by Baiming.Zhang on 4/5/2016.
@@ -173,4 +175,3 @@ public class RoundImageView extends ImageView {
             mRoundRect = new RectF(0, 0, getWidth(), getHeight());
     }
 }
-

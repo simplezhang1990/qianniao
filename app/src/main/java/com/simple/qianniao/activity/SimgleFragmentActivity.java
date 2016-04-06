@@ -1,9 +1,11 @@
-package com.simple.qianniao;
+package com.simple.qianniao.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+
+import com.simple.qianniao.R;
 
 public abstract class SimgleFragmentActivity extends FragmentActivity {
 

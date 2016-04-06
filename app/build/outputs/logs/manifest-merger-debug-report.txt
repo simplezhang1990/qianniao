@@ -28,10 +28,10 @@ MERGED from [com.android.support:support-v4:23.1.1] D:\project\android_studio\qi
 		ADDED from D:\project\android_studio\qianniao\app\src\main\AndroidManifest.xml:7:9-43
 	android:theme
 		ADDED from D:\project\android_studio\qianniao\app\src\main\AndroidManifest.xml:10:9-40
-activity#com.simple.qianniao.LoginActivity
+activity#com.simple.qianniao.activity.LoginActivity
 ADDED from D:\project\android_studio\qianniao\app\src\main\AndroidManifest.xml:11:9-17:20
 	android:name
-		ADDED from D:\project\android_studio\qianniao\app\src\main\AndroidManifest.xml:11:19-48
+		ADDED from D:\project\android_studio\qianniao\app\src\main\AndroidManifest.xml:11:19-57
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
 ADDED from D:\project\android_studio\qianniao\app\src\main\AndroidManifest.xml:12:13-16:29
 action#android.intent.action.MAIN
@@ -42,10 +42,10 @@ category#android.intent.category.LAUNCHER
 ADDED from D:\project\android_studio\qianniao\app\src\main\AndroidManifest.xml:15:17-76
 	android:name
 		ADDED from D:\project\android_studio\qianniao\app\src\main\AndroidManifest.xml:15:27-74
-activity#com.simple.qianniao.RegisterActivity
+activity#com.simple.qianniao.activity.RegisterActivity
 ADDED from D:\project\android_studio\qianniao\app\src\main\AndroidManifest.xml:18:9-19:20
 	android:name
-		ADDED from D:\project\android_studio\qianniao\app\src\main\AndroidManifest.xml:18:19-51
+		ADDED from D:\project\android_studio\qianniao\app\src\main\AndroidManifest.xml:18:19-60
 uses-sdk
 INJECTED from D:\project\android_studio\qianniao\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.1.1] D:\project\android_studio\qianniao\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\AndroidManifest.xml:20:5-43

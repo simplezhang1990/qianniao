@@ -4,9 +4,9 @@
               android:layout_height="match_parent"
               android:gravity="center_vertical"
               android:orientation="vertical"
-              tools:context="com.simple.qianniao.LoginFragment">
+              tools:context=".activity.LoginFragment">
 
-    <com.simple.qianniao.RoundImageView
+    <com.simple.qianniao.view.RoundImageView
         android:id="@+id/head_ImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -36,6 +36,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/roundededitview"
         android:hint="@string/login_passworde_hint"
+        android:password="true"
         android:textColorHint="@color/LightGrey"/>
 
     <RelativeLayout
@@ -59,6 +60,17 @@
             android:text="@string/login_forget_password"
             android:textColor="@color/White"/>
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/login_error_message"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:textColor="@color/Red"
+        />
 
     <Button
         android:id="@+id/login_button"

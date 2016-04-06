@@ -1,8 +1,6 @@
-package com.simple.qianniao;
+package com.simple.qianniao.activity;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 public class LoginActivity extends SimgleFragmentActivity {
 
