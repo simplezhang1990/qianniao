@@ -1,6 +1,7 @@
 package com.simple.qianniao.activity;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.simple.qianniao.R;
+import com.simple.qianniao.view.ProgressDialog;
 import com.simple.qianniao.view.RoundImageView;
+
+
 
 
 /**
@@ -31,28 +36,32 @@ public class LoginFragment extends Fragment {
     private TextView mForgetPasswordTextView;
     private TextView mErrorMessageTextView;
     private Button mLoginButton;
+    private ImageView mProgressImageView;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        mUsernameEditText = (EditText)view.findViewById(R.id.login_username_editview);
-        mPasswordEditText = (EditText)view.findViewById(R.id.login_password_editview);
+        mUsernameEditText = (EditText) view.findViewById(R.id.login_username_editview);
+        mPasswordEditText = (EditText) view.findViewById(R.id.login_password_editview);
         mRegisterTextView = (TextView) view.findViewById(R.id.login_register);
         mForgetPasswordTextView = (TextView) view.findViewById(R.id.login_forget_password);
         mErrorMessageTextView = (TextView) view.findViewById(R.id.login_error_message);
-        mLoginButton = (Button)view.findViewById(R.id.login_button);
+        mLoginButton = (Button) view.findViewById(R.id.login_button);
+
         mRegisterTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RegisterActivity.class);
-                startActivityForResult(intent,REQUEST_CODE_REGISTER );
+                startActivityForResult(intent, REQUEST_CODE_REGISTER);
             }
         });
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(),MainPageActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), MainPageActivity.class);
+//                startActivity(intent);
+                initDynamicBox();
             }
         });
         return view;
@@ -64,11 +73,20 @@ public class LoginFragment extends Fragment {
             case REQUEST_CODE_REGISTER:
                 if (resultCode == RESULT_OK) {
                     Bundle bundle = data.getExtras();
-                    String username = bundle.getString(RESULT_USERNAME,"");
-                    Log.i(TAG,"username from register page is "+username);
+                    String username = bundle.getString(RESULT_USERNAME, "");
+                    Log.i(TAG, "username from register page is " + username);
                     mUsernameEditText.setText(username);
                 }
                 break;
         }
     }
+
+    private void initDynamicBox() {
+        Dialog dialog = new ProgressDialog(getContext(),R.style.dialog);
+
+        dialog.show();
+
+
+    }
+
 }

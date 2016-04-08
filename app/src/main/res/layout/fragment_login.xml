@@ -83,4 +83,12 @@
         android:textColor="@color/White"
         />
 
+    <!--<ImageView-->
+        <!--android:id="@+id/progress_imageview"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:src="@drawable/snake1"-->
+        <!--/>-->
+
 </LinearLayout>
