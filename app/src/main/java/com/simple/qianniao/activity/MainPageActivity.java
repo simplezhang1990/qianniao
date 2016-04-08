@@ -6,9 +6,18 @@ import android.os.Bundle;
 
 public class MainPageActivity extends SimgleFragmentActivity {
 
+    private MainPageFragment mFragment;
+
     @Override
     protected Fragment createFragment() {
-        return new MainPageFragment();
+
+        mFragment = new MainPageFragment();
+        return mFragment;
     }
-    
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        mFragment.onBackPressed();
+    }
 }

@@ -2,6 +2,7 @@ package com.simple.qianniao.activity;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -9,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.simple.qianniao.R;
 
@@ -21,24 +23,30 @@ import java.util.List;
 public class MainPageFragment extends Fragment {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private LayoutInflater mInflater;
     private List<String> mTitles = new ArrayList<String>();
-    private View view1,view2,view3,view4,view5;
+    private View view1, view2, view3, view4, view5;
     private List<View> mViewList = new ArrayList<View>();
-
+    private int mBackButtonPressedTime = 0;
+    private Handler mHandler = new Handler();
+    private final Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            mBackButtonPressedTime = 0;
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       View view = inflater.inflate(R.layout.fragment_main_page, container, false);
-        mViewPager = (ViewPager)view.findViewById(R.id.mainpage_viewpager);
+        View view = inflater.inflate(R.layout.fragment_main_page, container, false);
+        mViewPager = (ViewPager) view.findViewById(R.id.mainpage_viewpager);
         mTabLayout = (TabLayout) view.findViewById(R.id.mainpage_tablayout);
 
-        view1 =inflater.inflate(R.layout.fragment_login,null);
-        view2 =inflater.inflate(R.layout.fragment_login,null);
-        view3 =inflater.inflate(R.layout.fragment_login,null);
-        view4 =inflater.inflate(R.layout.fragment_login,null);
-        view5 =inflater.inflate(R.layout.fragment_login,null);
+        view1 = inflater.inflate(R.layout.fragment_login, null);
+        view2 = inflater.inflate(R.layout.fragment_login, null);
+        view3 = inflater.inflate(R.layout.fragment_login, null);
+        view4 = inflater.inflate(R.layout.fragment_login, null);
+        view5 = inflater.inflate(R.layout.fragment_login, null);
         mViewList.add(view1);
         mViewList.add(view2);
         mViewList.add(view3);
@@ -58,7 +66,7 @@ public class MainPageFragment extends Fragment {
         MyPagerAdapter mAdapter = new MyPagerAdapter(mViewList);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-       // mTabLayout.setTabsFromPagerAdapter(mAdapter);
+        // mTabLayout.setTabsFromPagerAdapter(mAdapter);
         TabLayout.Tab tab = mTabLayout.getTabAt(0);
         tab.setIcon(R.drawable.image10);
         tab = mTabLayout.getTabAt(1);
@@ -69,10 +77,11 @@ public class MainPageFragment extends Fragment {
         tab.setIcon(R.drawable.image13);
         tab = mTabLayout.getTabAt(4);
         tab.setIcon(R.drawable.image14);
+
         return view;
     }
 
-    class MyPagerAdapter extends PagerAdapter{
+    class MyPagerAdapter extends PagerAdapter {
 
         private List<View> mViewList;
 
@@ -87,7 +96,7 @@ public class MainPageFragment extends Fragment {
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
-            return view==object;
+            return view == object;
         }
 
         @Override
@@ -102,9 +111,29 @@ public class MainPageFragment extends Fragment {
         }
 
         @Override
-       public CharSequence getPageTitle(int position) {
-           return mTitles.get(position);
-       }
+        public CharSequence getPageTitle(int position) {
+            return mTitles.get(position);
+        }
 
+    }
+
+
+    public void onBackPressed() {
+        mBackButtonPressedTime++;
+        if(mBackButtonPressedTime==2){
+            getActivity().finishAffinity();
+            return;
+        }
+        Toast.makeText(getContext(),R.string.press_back_twice_to_exist,Toast.LENGTH_SHORT).show();
+
+        mHandler.postDelayed(mRunnable,2000);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(mHandler!=null){
+            mHandler.removeCallbacks(mRunnable);
+        }
     }
 }

@@ -81,6 +81,17 @@ public class CustomerSQLiteHelper extends SQLiteOpenHelper {
                 customer = new Customer(username, alis, age, sex, password, head_image);
             }
         }
+        cursor.close();
         return customer;
+    }
+
+    public boolean customerLogin(String username,String password){
+        mDB = dbHelper.getReadableDatabase();
+        Cursor cursor=mDB.query(CUSTOMER_TABLE, null, "username=? and password=?", new String[]{username,password}, null, null, null);
+        if(cursor.getCount()>0){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
