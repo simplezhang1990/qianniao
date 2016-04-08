@@ -101,13 +101,27 @@
             android:textSize="20sp"
             android:textStyle="bold"/>
 
-        <Switch
-            android:id="@+id/register_sex_switch"
+        <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textOff="@string/register_sex_woman"
-            android:textOn="@string/register_sex_man"
-            />
+            android:id="@+id/register_radiogroup"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/register_radio_man"
+                android:text="@string/register_sex_man"
+                android:textSize="20sp"
+                android:checked="true"
+                />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/register_radio_woman"
+                android:textSize="20sp"
+                android:text="@string/register_sex_woman"
+                />
+        </RadioGroup>
     </LinearLayout>
 
     <LinearLayout

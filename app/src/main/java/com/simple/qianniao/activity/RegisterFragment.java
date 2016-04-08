@@ -1,8 +1,11 @@
 
 package com.simple.qianniao.activity;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,6 +16,8 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +39,8 @@ public class RegisterFragment extends Fragment {
     private EditText mAlisEditText;
     private EditText mConfirmPasswordEditText;
     private NumberPicker mAgePicker;
-    private Switch mSexSwitch;
+    private RadioButton mSexRadioMan;
+    private RadioButton mSexRadioWoman;
     private Button mRegisterButton;
     private TextView mErrorMessageTextView;
     private CustomerSQLiteHelper mCustomerDBHelper;
@@ -54,24 +60,20 @@ public class RegisterFragment extends Fragment {
         mAlisEditText = (EditText) view.findViewById(R.id.register_alia_edittext);
         mConfirmPasswordEditText = (EditText) view.findViewById(R.id.register_confirm_password_edittext);
         mAgePicker = (NumberPicker) view.findViewById(R.id.register_age_picker);
-        mSexSwitch = (Switch) view.findViewById(R.id.register_sex_switch);
+        mSexRadioMan = (RadioButton)view.findViewById(R.id.register_radio_man);
+        Drawable drawable = getResources().getDrawable(R.drawable.man);
+        drawable.setBounds(0,0,55,60);
+        mSexRadioMan.setCompoundDrawables(drawable,null,null,null);
+        mSexRadioWoman = (RadioButton)view.findViewById(R.id.register_radio_woman);
+        drawable = getResources().getDrawable(R.drawable.woman);
+        drawable.setBounds(0, 0, 45, 55);
+        mSexRadioWoman.setCompoundDrawables(drawable,null,null,null);
         mRegisterButton = (Button) view.findViewById(R.id.register_button);
         mErrorMessageTextView = (TextView) view.findViewById(R.id.register_error_message_textview);
         mAgePicker.setMaxValue(100);
         mAgePicker.setMinValue(14);
         mAgePicker.setValue(18);
-        mSexSwitch.setChecked(true);
-        mSexSwitch.setThumbDrawable(new ColorDrawable(getResources().getColor(R.color.MediumSpringGreen)));
-        mSexSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mSexSwitch.setThumbDrawable(new ColorDrawable(getResources().getColor(R.color.MediumSpringGreen)));
-                } else {
-                    mSexSwitch.setThumbDrawable(new ColorDrawable(getResources().getColor(R.color.Pink)));
-                }
-            }
-        });
+
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +81,7 @@ public class RegisterFragment extends Fragment {
                 String alis = mAlisEditText.getText().toString();
                 String age = String.valueOf(mAgePicker.getValue());
                 String sex;
-                if (mSexSwitch.isChecked()) {
+                if (mSexRadioMan.isChecked()) {
                     sex = getResources().getString(R.string.register_sex_man);
                 } else {
                     sex = getResources().getString(R.string.register_sex_woman);
