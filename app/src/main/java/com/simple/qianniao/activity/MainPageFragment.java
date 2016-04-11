@@ -51,22 +51,26 @@ public class MainPageFragment extends Fragment {
         MyFragmentPagerAdapter mFragmentAdapter = new MyFragmentPagerAdapter(getFragmentManager());
         mViewPager.setAdapter(mFragmentAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        
+        TabLayout.Tab tab = mTabLayout.getTabAt(0);
+        tab.setIcon(R.drawable.homepage_check);
+        tab = mTabLayout.getTabAt(1);
+        tab.setIcon(R.drawable.personal_profile_uncheck);
+
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(tab.getPosition()==1){
+                if (tab.getPosition() == 1) {
                     tab.setIcon(R.drawable.personal_profile_check);
-                }else if(tab.getPosition()==0){
+                } else if (tab.getPosition() == 0) {
                     tab.setIcon(R.drawable.homepage_check);
                 }
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                if(tab.getPosition()==1){
+                if (tab.getPosition() == 1) {
                     tab.setIcon(R.drawable.personal_profile_uncheck);
-                }else if(tab.getPosition()==0){
+                } else if (tab.getPosition() == 0) {
                     tab.setIcon(R.drawable.homepage_uncheck);
                 }
             }
