@@ -1,0 +1,103 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.simple.qianniao.activity.PersonalInfoFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/background_personal_view_rounded_container"
+                android:gravity="center_vertical">
+
+                <com.simple.qianniao.view.RoundImageView
+                    android:id="@+id/personal_head_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/head_image_holder"/>
+
+                <LinearLayout
+                    android:id="@+id/personal_title_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/personal_head_image"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/personal_alis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Alis"
+                        android:textColor="@color/DarkMagenta"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        />
+
+                    <TextView
+                        android:id="@+id/personal_account"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="account"
+                        android:textColor="@color/LightSalmon"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/personal_info_edit_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/chevron"/>
+
+            </RelativeLayout>
+
+            <com.simple.qianniao.view.UITableView
+                android:id="@+id/personinfo_UITableView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbarAlwaysDrawVerticalTrack="true"></com.simple.qianniao.view.UITableView>
+
+            <com.simple.qianniao.view.UIButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                app:mtitle="some title one"></com.simple.qianniao.view.UIButton>
+
+            <com.simple.qianniao.view.UIButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                app:msubtitle="some subtitle one"
+                app:mtitle="some title one"></com.simple.qianniao.view.UIButton>
+
+            <com.simple.qianniao.view.UIButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                app:image="@drawable/image6"
+                app:msubtitle="some subtitle one"
+                app:mtitle="some title one"></com.simple.qianniao.view.UIButton>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

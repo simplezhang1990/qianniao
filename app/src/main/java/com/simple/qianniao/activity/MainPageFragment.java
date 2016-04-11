@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -24,8 +26,6 @@ public class MainPageFragment extends Fragment {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private List<String> mTitles = new ArrayList<String>();
-    private View view1, view2, view3, view4, view5;
-    private List<View> mViewList = new ArrayList<View>();
     private int mBackButtonPressedTime = 0;
     private Handler mHandler = new Handler();
     private final Runnable mRunnable = new Runnable() {
@@ -42,97 +42,90 @@ public class MainPageFragment extends Fragment {
         mViewPager = (ViewPager) view.findViewById(R.id.mainpage_viewpager);
         mTabLayout = (TabLayout) view.findViewById(R.id.mainpage_tablayout);
 
-        view1 = inflater.inflate(R.layout.fragment_login, null);
-        view2 = inflater.inflate(R.layout.fragment_login, null);
-        view3 = inflater.inflate(R.layout.fragment_login, null);
-        view4 = inflater.inflate(R.layout.fragment_login, null);
-        view5 = inflater.inflate(R.layout.fragment_login, null);
-        mViewList.add(view1);
-        mViewList.add(view2);
-        mViewList.add(view3);
-        mViewList.add(view4);
-        mViewList.add(view5);
         mTitles.add("头条");
-        mTitles.add("热点");
-        mTitles.add("本地");
-        mTitles.add("财经");
-        mTitles.add("科技");
+        mTitles.add("我的");
+
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitles.get(0)), true);
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitles.get(1)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles.get(2)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles.get(3)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles.get(4)));
 
-        MyPagerAdapter mAdapter = new MyPagerAdapter(mViewList);
-        mViewPager.setAdapter(mAdapter);
+        MyFragmentPagerAdapter mFragmentAdapter = new MyFragmentPagerAdapter(getFragmentManager());
+        mViewPager.setAdapter(mFragmentAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        // mTabLayout.setTabsFromPagerAdapter(mAdapter);
-        TabLayout.Tab tab = mTabLayout.getTabAt(0);
-        tab.setIcon(R.drawable.image10);
-        tab = mTabLayout.getTabAt(1);
-        tab.setIcon(R.drawable.image11);
-        tab = mTabLayout.getTabAt(2);
-        tab.setIcon(R.drawable.image12);
-        tab = mTabLayout.getTabAt(3);
-        tab.setIcon(R.drawable.image13);
-        tab = mTabLayout.getTabAt(4);
-        tab.setIcon(R.drawable.image14);
+        
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition()==1){
+                    tab.setIcon(R.drawable.personal_profile_check);
+                }else if(tab.getPosition()==0){
+                    tab.setIcon(R.drawable.homepage_check);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                if(tab.getPosition()==1){
+                    tab.setIcon(R.drawable.personal_profile_uncheck);
+                }else if(tab.getPosition()==0){
+                    tab.setIcon(R.drawable.homepage_uncheck);
+                }
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         return view;
     }
 
-    class MyPagerAdapter extends PagerAdapter {
 
-        private List<View> mViewList;
+    class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        public MyPagerAdapter(List<View> mViewList) {
-            this.mViewList = mViewList;
+        public MyFragmentPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new PersonalInfoFragment();
+                case 1:
+                    return new RegisterFragment();
+                default:
+                    return new PersonalInfoFragment();
+            }
         }
 
         @Override
         public int getCount() {
-            return mViewList.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            container.addView(mViewList.get(position));
-            return mViewList.get(position);
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView(mViewList.get(position));
+            return 2;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             return mTitles.get(position);
         }
-
     }
 
 
     public void onBackPressed() {
         mBackButtonPressedTime++;
-        if(mBackButtonPressedTime==2){
+        if (mBackButtonPressedTime == 2) {
             getActivity().finishAffinity();
             return;
         }
-        Toast.makeText(getContext(),R.string.press_back_twice_to_exist,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.press_back_twice_to_exist, Toast.LENGTH_SHORT).show();
 
-        mHandler.postDelayed(mRunnable,2000);
+        mHandler.postDelayed(mRunnable, 2000);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(mHandler!=null){
+        if (mHandler != null) {
             mHandler.removeCallbacks(mRunnable);
         }
     }

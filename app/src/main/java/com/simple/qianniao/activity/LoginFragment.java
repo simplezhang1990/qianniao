@@ -46,15 +46,17 @@ public class LoginFragment extends Fragment {
     private AsyncTask mLoginAsynTask;
     private SharedPreferences mSharedPreferences;
     private String mSharedPreference_Username, mSharedPreference_Password;
+    private boolean mPasswordCorrect;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCustomerSQLiteHelper = CustomerSQLiteHelper.get(getContext());
-        mSharedPreferences = getActivity().getSharedPreferences(SHAREDPREFERENCES_NAME, Context.MODE_APPEND);
+        mSharedPreferences = getActivity().getSharedPreferences(SHAREDPREFERENCES_NAME, Context.MODE_PRIVATE);
         mSharedPreference_Username = mSharedPreferences.getString(SHAREDPREFERENCES_USERNAME,"");
         mSharedPreference_Password = mSharedPreferences.getString(SHAREDPREFERENCES_PASSWORD,"");
+        Log.i(TAG,"******** username = "+mSharedPreference_Username+"   password = "+mSharedPreference_Password);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,6 +96,9 @@ public class LoginFragment extends Fragment {
         if (mLoginAsynTask != null && mLoginAsynTask.getStatus() != AsyncTask.Status.FINISHED)
             mLoginAsynTask.cancel(true);
         mLoginAsynTask = new LoginAsynTask().execute(new String[]{username, password});
+
+
+
     }
 
     @Override
@@ -134,39 +139,35 @@ public class LoginFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            if (aBoolean) {
-                if (null != mSharedPreference_Username && !"".equals(mSharedPreference_Username) &&
-                        null != mSharedPreference_Password && !"".equals(mSharedPreference_Password)) {
-                    Log.i(TAG,"username aand password is not null");
-                    if (mSharedPreference_Username.equals(mUsernameEditText.getText().toString()) &&
-                            !mSharedPreference_Password.equals(mPasswordEditText.getText().toString())) {
-                        Log.i(TAG,"write username aand password to sharedpreference");
-                        SharedPreferences.Editor editor = mSharedPreferences.edit();
-                        editor.putString(SHAREDPREFERENCES_USERNAME, mUsernameEditText.getText().toString());
-                        editor.putString(SHAREDPREFERENCES_PASSWORD, mPasswordEditText.getText().toString());
-                        editor.commit();
-                    }
-                }
+            mPasswordCorrect = aBoolean;
+            logintoMainPage();
+        }
+    }
 
-                clearProgressDialog();
-                Intent intent = new Intent(getContext(), MainPageActivity.class);
-                intent.putExtra(RESULT_USERNAME, mUsernameEditText.getText().toString());
-                startActivity(intent);
-            } else {
-                clearProgressDialog();
-                mErrorMessageTextView.setText(R.string.login_password_error);
-            }
+    private void logintoMainPage() {
+        if (mPasswordCorrect) {
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putString(SHAREDPREFERENCES_USERNAME, mUsernameEditText.getText().toString());
+            editor.putString(SHAREDPREFERENCES_PASSWORD, mPasswordEditText.getText().toString());
+            editor.commit();
+            clearProgressDialog();
+            Intent intent = new Intent(getContext(), MainPageActivity.class);
+            intent.putExtra(RESULT_USERNAME, mUsernameEditText.getText().toString());
+            startActivity(intent);
+        } else {
+            clearProgressDialog();
+            mErrorMessageTextView.setText(R.string.login_password_error);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG,"******** username = "+mSharedPreference_Username+"   password = "+mSharedPreference_Password);
         if(!"".equals(mSharedPreference_Username)&&!"".equals(mSharedPreference_Password)){
             mUsernameEditText.setText(mSharedPreference_Username);
             mPasswordEditText.setText(mSharedPreference_Password);
             performLogin(mSharedPreference_Username,mSharedPreference_Password);
+
         }
 
 

@@ -124,7 +124,6 @@ public class RegisterFragment extends Fragment {
         });
         return view;
     }
-
     private boolean isMobileNO(String username) {
         Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
         Matcher m = p.matcher(username);
