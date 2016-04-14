@@ -33,4 +33,8 @@
     <string name="login_empty_error">用户名或密码不能为空！</string>
     <string name="login_password_error">用户名或密码不正确！</string>
     <string name="press_back_twice_to_exist">请再点一次退出</string>
+    <string name="personal_upload_headimage">上传照片</string>
+    <string name="personal_change_headimage">更换照片</string>
+    <string name="personal_take_picture">拍照</string>
+    <string name="personal_pick_picture">相册中选取</string>
 </resources>

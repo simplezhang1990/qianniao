@@ -26,6 +26,7 @@ public class MainPageFragment extends Fragment {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private List<String> mTitles = new ArrayList<String>();
+    private List<Fragment> mFragments = new ArrayList<Fragment>();
     private int mBackButtonPressedTime = 0;
     private Handler mHandler = new Handler();
     private final Runnable mRunnable = new Runnable() {
@@ -45,16 +46,19 @@ public class MainPageFragment extends Fragment {
         mTitles.add("头条");
         mTitles.add("我的");
 
+        mFragments.add(new RegisterFragment());
+        mFragments.add(new PersonalInfoFragment());
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitles.get(0)), true);
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitles.get(1)));
 
-        MyFragmentPagerAdapter mFragmentAdapter = new MyFragmentPagerAdapter(getFragmentManager());
+        MyFragmentPagerAdapter mFragmentAdapter = new MyFragmentPagerAdapter(getFragmentManager(),mFragments);
         mViewPager.setAdapter(mFragmentAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         TabLayout.Tab tab = mTabLayout.getTabAt(0);
         tab.setIcon(R.drawable.homepage_check);
         tab = mTabLayout.getTabAt(1);
         tab.setIcon(R.drawable.personal_profile_uncheck);
+        mViewPager.setCurrentItem(1);
 
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -64,6 +68,7 @@ public class MainPageFragment extends Fragment {
                 } else if (tab.getPosition() == 0) {
                     tab.setIcon(R.drawable.homepage_check);
                 }
+                mViewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -87,25 +92,21 @@ public class MainPageFragment extends Fragment {
 
     class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        public MyFragmentPagerAdapter(FragmentManager fm) {
+        List<Fragment> mFragments;
+
+        public MyFragmentPagerAdapter(FragmentManager fm, List<Fragment> fragments) {
             super(fm);
+            mFragments = fragments;
         }
 
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new PersonalInfoFragment();
-                case 1:
-                    return new RegisterFragment();
-                default:
-                    return new PersonalInfoFragment();
-            }
+            return mFragments.get(position);
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return mFragments.size();
         }
 
         @Override
@@ -133,4 +134,5 @@ public class MainPageFragment extends Fragment {
             mHandler.removeCallbacks(mRunnable);
         }
     }
+
 }

@@ -18,26 +18,49 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/background_personal_view_rounded_container"
                 android:gravity="center_vertical">
 
-                <com.simple.qianniao.view.RoundImageView
-                    android:id="@+id/personal_head_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/head_image_holder"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/personal_headimage">
+
+                    <com.simple.qianniao.view.RoundImageView
+                        android:id="@+id/personal_head_ImageView"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/image1"
+                        />
+                    <Button
+                        android:id="@+id/personal_upload_headimage_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:textSize="15sp"
+                        android:text="@string/personal_upload_headimage"
+                        android:layout_gravity="center"
+                        android:textColor="@color/OrangeRed"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/textview_background"
+                        />
+
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:id="@+id/personal_title_container"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/personal_head_image"
+                    android:layout_toRightOf="@id/personal_headimage"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
+                    android:layout_centerInParent="true"
+
                     >
 
                     <TextView
@@ -48,6 +71,7 @@
                         android:textColor="@color/DarkMagenta"
                         android:textSize="20sp"
                         android:textStyle="bold"
+                        android:layout_marginBottom="10dp"
                         />
 
                     <TextView
