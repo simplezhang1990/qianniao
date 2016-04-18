@@ -1,24 +1,28 @@
 package com.simple.qianniao.activity;
 
 
-import android.app.Dialog;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.simple.qianniao.R;
+import com.simple.qianniao.Util.ImageUtil;
 import com.simple.qianniao.modul.Customer;
 import com.simple.qianniao.modul.CustomerSQLiteHelper;
+import com.simple.qianniao.view.RoundImageView;
 import com.simple.qianniao.view.UITableView;
 
 /**
@@ -26,6 +30,8 @@ import com.simple.qianniao.view.UITableView;
  */
 public class PersonalInfoFragment extends Fragment {
 
+    public static final String PERSONAL_HEAD_IMAGE_PATH = "personal_head_image_path";
+    private static final int PICK_PHOTO = 99;
     private UITableView mPersonInfoUITableView;
     private Button mPersonalTakePicture;
     private CustomerSQLiteHelper mCustomerSQLiteHelper;
@@ -33,6 +39,7 @@ public class PersonalInfoFragment extends Fragment {
     private String mSharedPreference_Username;
     private Customer mCurrentCustomer;
     private TextView mAlis, mAccount;
+    private RoundImageView mHeadImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,9 +49,9 @@ public class PersonalInfoFragment extends Fragment {
         mPersonalTakePicture = (Button) view.findViewById(R.id.personal_upload_headimage_button);
         mAlis = (TextView) view.findViewById(R.id.personal_alis);
         mAccount = (TextView) view.findViewById(R.id.personal_account);
+        mHeadImage = (RoundImageView)view.findViewById(R.id.personal_head_ImageView);
         mPersonInfoUITableView.addBasicItem("example1");
         mPersonInfoUITableView.addBasicItem("example2", "summary");
-
         mPersonInfoUITableView.addBasicItem(R.drawable.image20, "example3", "summary");
         mPersonInfoUITableView.addBasicItem("example4", "summary", R.color.CadetBlue);
         mPersonInfoUITableView.commit();
@@ -53,7 +60,7 @@ public class PersonalInfoFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), PickPictureActivity.class);
                 intent.putExtra(MainPageFragment.SHAREDPREFERENCES_CURRENTUSER,mSharedPreference_Username);
-                startActivity(intent);
+                startActivityForResult(intent,PICK_PHOTO);
             }
         });
         if (mCurrentCustomer != null) {
@@ -76,5 +83,21 @@ public class PersonalInfoFragment extends Fragment {
         mSharedPreference_Username = mSharedPreferences.getString(MainPageFragment.SHAREDPREFERENCES_CURRENTUSER, "");
         mCurrentCustomer = mCustomerSQLiteHelper.searchCustomer(mSharedPreference_Username);
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==PICK_PHOTO&&resultCode== Activity.RESULT_OK){
+            String path = Environment.getExternalStorageDirectory() .getAbsolutePath()+"/"+data.getStringExtra(PERSONAL_HEAD_IMAGE_PATH);
+            Bitmap bitmap = decodeSampledBitmap(path,mHeadImage);
+            mHeadImage.setImageBitmap(bitmap);
+        }
+    }
+
+    private Bitmap decodeSampledBitmap(String pathName, ImageView imageView) {
+        int width = imageView.getMeasuredWidth();
+        int height =imageView.getMeasuredHeight();
+        return ImageUtil.decodeSampledBitmap(pathName, width, height);
     }
 }
