@@ -25,6 +25,8 @@ import com.simple.qianniao.modul.CustomerSQLiteHelper;
 import com.simple.qianniao.view.RoundImageView;
 import com.simple.qianniao.view.UITableView;
 
+import java.io.File;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -69,9 +71,7 @@ public class PersonalInfoFragment extends Fragment {
         }else {
             Toast.makeText(getContext(),"customer info is null",Toast.LENGTH_SHORT).show();
         }
-        if (!"".equals(mCurrentCustomer.getHeadImage())) {
 
-        }
         return view;
     }
 
@@ -82,16 +82,34 @@ public class PersonalInfoFragment extends Fragment {
         mSharedPreferences = getActivity().getSharedPreferences(MainPageFragment.SHAREDPREFERENCES_NAME, Context.MODE_PRIVATE);
         mSharedPreference_Username = mSharedPreferences.getString(MainPageFragment.SHAREDPREFERENCES_CURRENTUSER, "");
         mCurrentCustomer = mCustomerSQLiteHelper.searchCustomer(mSharedPreference_Username);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mCurrentCustomer != null) {
+            if (!"".equals(mCurrentCustomer.getHeadImagePath())) {
+                String path = Environment.getExternalStorageDirectory() .getAbsolutePath()+File.separator+mCurrentCustomer.getHeadImagePath();
+                setHeadImage(mHeadImage,path);
+            }
+        }else {
+            Toast.makeText(getContext(),"customer info is null",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==PICK_PHOTO&&resultCode== Activity.RESULT_OK){
-            String path = Environment.getExternalStorageDirectory() .getAbsolutePath()+"/"+data.getStringExtra(PERSONAL_HEAD_IMAGE_PATH);
-            Bitmap bitmap = decodeSampledBitmap(path,mHeadImage);
-            mHeadImage.setImageBitmap(bitmap);
+            String path = Environment.getExternalStorageDirectory() .getAbsolutePath()+ File.separator+data.getStringExtra(PERSONAL_HEAD_IMAGE_PATH);
+            if(!"".equals(mCurrentCustomer.getHeadImagePath())){
+                File oldImage = new File(Environment.getExternalStorageDirectory() .getAbsolutePath()+File.separator+mCurrentCustomer.getHeadImagePath());
+                oldImage.delete();
+            }
+            mCurrentCustomer.setHeadImagePath(data.getStringExtra(PERSONAL_HEAD_IMAGE_PATH));
+            mCustomerSQLiteHelper.updateCustomer(mCurrentCustomer);
+            setHeadImage(mHeadImage,path);
+
         }
     }
 
@@ -99,5 +117,11 @@ public class PersonalInfoFragment extends Fragment {
         int width = imageView.getMeasuredWidth();
         int height =imageView.getMeasuredHeight();
         return ImageUtil.decodeSampledBitmap(pathName, width, height);
+    }
+
+    private void setHeadImage(ImageView imageView,String path){
+        Bitmap bitmap = decodeSampledBitmap(path,imageView);
+        bitmap = ImageUtil.fixImageOrientation(path,bitmap);
+        imageView.setImageBitmap(bitmap);
     }
 }

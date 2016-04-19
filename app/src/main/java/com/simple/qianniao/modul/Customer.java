@@ -1,5 +1,7 @@
 package com.simple.qianniao.modul;
 
+import android.util.Log;
+
 import java.util.UUID;
 
 /**
@@ -12,7 +14,7 @@ public class Customer {
     private String mAge;
     private String mSex;
     private String mPassword;
-    private String mHeadImage;
+    private String mHeadImagePath;
 
     public String getUsername() {
         return mUsername;
@@ -50,14 +52,6 @@ public class Customer {
         mPassword = password;
     }
 
-    public String getHeadImage() {
-        return mHeadImage;
-    }
-
-    public void setHeadImage(String headImage) {
-        mHeadImage = headImage;
-    }
-
     public Customer(String username, String alis, String age, String sex, String password) {
         this(username, alis, age, sex, password, "");
     }
@@ -69,8 +63,16 @@ public class Customer {
         mAge = age;
         mSex = sex;
         mPassword = password;
-        mHeadImage = head_image;
+        mHeadImagePath = head_image;
     }
 
 
+    public String getHeadImagePath() {
+        return mHeadImagePath;
+    }
+
+    public void setHeadImagePath(String headImagePath) {
+        mHeadImagePath = headImagePath;
+        Log.i("qianniao","set image path: "+headImagePath);
+    }
 }

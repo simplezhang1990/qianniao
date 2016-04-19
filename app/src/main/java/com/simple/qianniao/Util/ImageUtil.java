@@ -2,8 +2,12 @@ package com.simple.qianniao.Util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Point;
+import android.media.ExifInterface;
 import android.view.Display;
+
+import java.io.File;
 
 /**
  * Created by Baiming.Zhang on 4/18/2016.
@@ -35,7 +39,9 @@ public class ImageUtil {
 
     public static Bitmap decodeSampledBitmap(String pathName,
                                        int reqWidth, int reqHeight) {
-
+        if(reqHeight==0&&reqWidth==0){
+            reqWidth= reqHeight=100;
+        }
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -49,14 +55,35 @@ public class ImageUtil {
         return BitmapFactory.decodeFile(pathName, options);
     }
 
-    //I added this to have a good approximation of the screen size:
-//    private Bitmap decodeSampledBitmap(String pathName) {
-//        Display display = getWindowManager().getDefaultDisplay();
-//        Point size = new Point();
-//        display.getSize(size);
-//        int width = size.x;
-//        int height = size.y;
-//        return decodeSampledBitmap(pathName, width, height);
-//    }
+    public static Bitmap fixImageOrientation(String imagePath, Bitmap bitmap_src){
+        int rotate = 0;
+        Bitmap bitmap_dest;
+        try {
+            File imageFile = new File(imagePath);
+            ExifInterface exif = new ExifInterface(
+                    imageFile.getAbsolutePath());
+            int orientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = 270;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Matrix matrix = new Matrix();
+        matrix.postRotate(rotate);
+        bitmap_dest = Bitmap.createBitmap(bitmap_src , 0, 0, bitmap_src.getWidth(), bitmap_src.getHeight(), matrix, true);
+        return  bitmap_dest;
+    }
 
 }

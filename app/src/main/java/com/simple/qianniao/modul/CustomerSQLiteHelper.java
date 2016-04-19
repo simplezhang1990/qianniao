@@ -50,7 +50,7 @@ public class CustomerSQLiteHelper extends SQLiteOpenHelper {
         values.put("age",customer.getAge());
         values.put("sex",customer.getSex());
         values.put("password",customer.getPassword());
-        values.put("head_image",customer.getHeadImage());
+        values.put("head_image",customer.getHeadImagePath());
         return values;
     }
 

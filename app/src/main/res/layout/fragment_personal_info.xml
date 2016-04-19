@@ -35,6 +35,7 @@
                         android:layout_height="100dp"
                         android:layout_margin="10dp"
                         android:src="@drawable/image1"
+                        android:scaleType="centerInside"
                         />
                     <Button
                         android:id="@+id/personal_upload_headimage_button"
