@@ -31,7 +31,7 @@ public class PickPictureFragment extends Fragment {
     private Button mTakePicture;
     private Button mPickePicture;
     private Uri mImageUri;
-    private String mFilename;
+    private String mFilename, mImageName;
     private String mUsername;
 
 
@@ -54,17 +54,16 @@ public class PickPictureFragment extends Fragment {
                 Date date = new Date(System.currentTimeMillis());
                 mFilename = format.format(date);
                 String bast_path = Environment.getExternalStorageDirectory().getAbsolutePath();
-                bast_path =bast_path +"/"+ getActivity().getPackageName()+"/"+mUsername;
-                Log.i(TAG,bast_path +"/"+mFilename + ".jpg");
-                File path = new File(bast_path);
+                bast_path =bast_path +File.separator+ getActivity().getPackageName()+File.separator+mUsername;
+                File path = new File(Environment.getExternalStorageDirectory(),getActivity().getPackageName()+File.separator+mUsername);
                 if (!path.exists()) {
-                    if (!path.mkdir()) {
+                    if (!path.mkdirs()) {
                         Toast.makeText(getContext(),"Create Image folder failed",Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
                 File outputImage = new File(bast_path, mFilename + ".jpg");
-                mFilename = getActivity().getPackageName()+"/"+mUsername + "/" + mFilename + ".jpg";
+                mImageName = getActivity().getPackageName()+"/"+mUsername + "/" + mFilename + ".jpg";
                 try {
                     if (outputImage.exists()) {
                         outputImage.delete();
@@ -92,11 +91,42 @@ public class PickPictureFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-            Intent intent = new Intent();
-            intent.putExtra(PersonalInfoFragment.PERSONAL_HEAD_IMAGE_PATH,mFilename);
-            getActivity().setResult(Activity.RESULT_OK,intent);
-            getActivity().finish();
+        if (resultCode != Activity.RESULT_OK) {
+            Toast.makeText(getContext(),"resultCode error", Toast.LENGTH_SHORT).show();
+            return;
         }
+        switch(requestCode) {
+            case TAKE_PHOTO:
+                cropImage();
+                break;
+            case CROP_PHOTO:
+                Intent intent_result = new Intent();
+                intent_result.putExtra(PersonalInfoFragment.PERSONAL_HEAD_IMAGE_PATH, mImageName);
+                getActivity().setResult(Activity.RESULT_OK, intent_result);
+                getActivity().finish();
+                break;
+            default:
+                break;
+        }
+    }
+    
+    private void cropImage() {
+        Intent intent = new Intent("com.android.camera.action.CROP"); //剪裁
+        intent.setDataAndType(mImageUri, "image/*");
+        intent.putExtra("scale", true);
+        intent.putExtra("crop", true);
+        //设置宽高比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        //设置裁剪图片宽高
+        intent.putExtra("outputX", 340);
+        intent.putExtra("outputY", 340);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+        Toast.makeText(getContext(), "剪裁图片", Toast.LENGTH_SHORT).show();
+        //广播刷新相册
+        Intent intentBc = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        intentBc.setData(mImageUri);
+        getActivity().sendBroadcast(intentBc);
+        startActivityForResult(intent, CROP_PHOTO); //设置裁剪参数显示图片至ImageView
     }
 }
